@@ -1,9 +1,9 @@
-import {KoiWorld} from './world.js?v=0.1.0';
-import {drawFish} from './fish.js?v=0.1.0';
-import {WaterField} from './water.js?v=0.1.0';
+import {KoiWorld} from './world.js?v=0.2.0';
+import {drawFish} from './fish.js?v=0.2.0';
+import {WaterField} from './water.js?v=0.2.0';
 export class KoiScene{
  constructor(canvas,{width,height,dpr=1,seed=17}={}){
-  this.canvas=canvas;this.ctx=canvas.getContext('2d');this.mask=document.createElement('canvas');this.m=this.mask.getContext('2d',{willReadFrequently:true});
+  this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.mask=document.createElement('canvas');this.m=this.mask.getContext('2d',{willReadFrequently:true});
   this.world=new KoiWorld(seed);this.water=new WaterField(33);this.project=p=>this.world.project(p);this.time=0;this.samples=0;this.resize(width,height,dpr);
  }
  resize(width,height,dpr=1){
@@ -11,6 +11,8 @@ export class KoiScene{
   this.canvas.width=Math.round(width*this.dpr);this.canvas.height=Math.round(height*this.dpr);this.ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
   this.cw=width<700?3.5:4.6;this.ch=width<700?5.5:7.1;this.cols=Math.ceil(width/this.cw);this.rows=Math.ceil(height/this.ch);this.mask.width=this.cols;this.mask.height=this.rows;
   this.world.resize(width,height);this.water.resize(width,height);
+  this.font=`600 ${this.ch*1.14}px "SFMono-Regular",Menlo,Consolas,monospace`;
+  this.edge=this.ctx.createRadialGradient(width*.5,height*.48,Math.min(width,height)*.25,width*.5,height*.5,Math.max(width,height)*.73);this.edge.addColorStop(0,'rgba(0,4,8,0)');this.edge.addColorStop(1,'rgba(0,4,8,.34)');
  }
  step(dt,time,pointer){this.time=time;this.world.step(dt,time,pointer);this.water.step(dt,time,this.world.fishes,this.project);}
  draw(time=this.time){
@@ -20,7 +22,7 @@ export class KoiScene{
   const fishes=[...this.world.fishes].sort((a,b)=>this.project(a.position).depth-this.project(b.position).depth);
   for(const fish of fishes){if(fish.opacity<.01)continue;m.save();drawFish(m,fish,this.project,time);m.restore();}
   m.setTransform(1,0,0,1,0,0);const pixels=m.getImageData(0,0,this.cols,this.rows).data;
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`600 ${this.ch*1.14}px "SFMono-Regular",Menlo,Consolas,monospace`;
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=this.font;
   const glyphs='.:=+ox%#@',fine='.,:';let samples=0;
   for(let y=0;y<this.rows;y++)for(let x=0;x<this.cols;x++){
    const k=(y*this.cols+x)*4,alpha=pixels[k+3]/255;if(alpha<.035)continue;
@@ -28,11 +30,10 @@ export class KoiScene{
    const r=Math.min(255,Math.round(pixels[k]*light*1.10)),g=Math.min(255,Math.round(pixels[k+1]*light*1.10)),b=Math.min(255,Math.round(pixels[k+2]*(light+.025)*1.10));
    const brightness=(r*.25+g*.61+b*.14)/255,hash=((x*73856093)^(y*19349663))>>>0;
    const glyph=alpha<.35?fine[hash%fine.length]:glyphs[(hash+Math.floor(brightness*4))%glyphs.length];
-   if(alpha>.6){ctx.fillStyle=`rgba(${Math.round(r*.35)},${Math.round(g*.35)},${Math.round(b*.35)},${alpha*.30})`;ctx.fillRect(x*this.cw+.4,y*this.ch+.5,this.cw-.8,this.ch-1);}
    ctx.fillStyle=`rgba(${r},${g},${b},${Math.min(1,alpha*.96)})`;ctx.fillText(glyph,sx,sy);samples++;
   }
   this.samples=samples;ctx.save();this.water.drawFront(ctx,time);ctx.restore();
-  const edge=ctx.createRadialGradient(w*.5,h*.48,Math.min(w,h)*.25,w*.5,h*.5,Math.max(w,h)*.73);edge.addColorStop(0,'rgba(0,4,8,0)');edge.addColorStop(1,'rgba(0,4,8,.34)');ctx.fillStyle=edge;ctx.fillRect(0,0,w,h);
+  ctx.fillStyle=this.edge;ctx.fillRect(0,0,w,h);
  }
  get pixelBytes(){return(this.canvas.width*this.canvas.height+this.mask.width*this.mask.height)*4;}
 }

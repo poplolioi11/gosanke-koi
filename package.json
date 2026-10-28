@@ -1,7 +1,7 @@
 {
   "name": "gosanke-koi",
-  "version": "0.1.0",
-  "description": "Three ASCII Gosanke koi swimming in a procedural pond with waves and occasional bubbles.",
+  "version": "0.2.0",
+  "description": "Three ASCII Gosanke koi with a 60fps target, procedural waves and occasional bubbles.",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -17,6 +17,6 @@
   "scripts": {
     "dev": "python3 -m http.server 4330 --bind 127.0.0.1 --directory dist",
     "check": "node --check dist/app.js && node --check dist/scene.js && node --check dist/world.js && node --check dist/fish.js && node --check dist/water.js",
-    "test": "node scripts/verify-world.mjs && node scripts/verify-patterns.mjs && node scripts/verify-scheduler.mjs"
+    "test": "node scripts/verify-world.mjs && node scripts/verify-patterns.mjs && node scripts/verify-scheduler.mjs && node scripts/verify-ascii.mjs"
   }
 }

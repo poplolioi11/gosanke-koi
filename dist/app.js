@@ -1,9 +1,9 @@
-import {KoiScene} from './scene.js?v=0.1.0';
-const canvas=document.getElementById('pond'),MAX_FPS=24,INTERVAL=1000/MAX_FPS;
+import {KoiScene} from './scene.js?v=0.2.0';
+const canvas=document.getElementById('pond'),MAX_FPS=60,INTERVAL=1000/MAX_FPS;
 const scene=new KoiScene(canvas,{width:innerWidth,height:innerHeight,dpr:devicePixelRatio||1});
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),pointer={x:0,y:0,active:false};
 let visible=!document.hidden,paused=reduced.matches,raf=0,last=0,nextFrame=0,pending=0,time=0,frameCount=0;
-canvas.dataset.targetFps=String(MAX_FPS);canvas.dataset.fishCount='3';
+canvas.dataset.targetFps=String(MAX_FPS);canvas.dataset.fishCount='3';canvas.dataset.renderMode='ascii';
 function draw(){const started=performance.now();scene.draw(time);canvas.dataset.renderMs=(performance.now()-started).toFixed(2);frameCount++;canvas.dataset.frameCount=String(frameCount);canvas.dataset.pixelBytes=String(scene.pixelBytes);}
 function frame(now){
  raf=0;if(!visible||paused)return;
