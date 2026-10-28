@@ -1,0 +1,22 @@
+{
+  "name": "gosanke-koi",
+  "version": "0.1.0",
+  "description": "Three ASCII Gosanke koi swimming in a procedural pond with waves and occasional bubbles.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "Chen-Yu Chu (曲宸宇)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poplolioi11/gosanke-koi.git"
+  },
+  "homepage": "https://poplolioi11.github.io/gosanke-koi/",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "python3 -m http.server 4330 --bind 127.0.0.1 --directory dist",
+    "check": "node --check dist/app.js && node --check dist/scene.js && node --check dist/world.js && node --check dist/fish.js && node --check dist/water.js",
+    "test": "node scripts/verify-world.mjs && node scripts/verify-patterns.mjs && node scripts/verify-scheduler.mjs"
+  }
+}
