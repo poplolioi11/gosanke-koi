@@ -1,5 +1,11 @@
 # 御三家錦鯉 · Gosanke Koi
 
+## 摘要 / Abstract
+
+《御三家錦鯉》是以Canvas與JavaScript製作的程序字元動畫，由紅白、大正三色與昭和三色三隻錦鯉在XYZ空間游動，透過分節魚身、品系色斑、水波、尾流與氣泡構成滿版水景。作品受ascii-sharks及《雲龍》啟發，由曲宸宇決定美術方向並經AI協作實作。公開v0.2.0提供可直接架設的靜態網頁包、完整原始碼與驗證腳本，採MIT且無外部執行期依賴。60fps為排程目標與上限，背景及減少動態效果時暫停；花色是藝術化表現，單一環境的畫面計數不保證跨裝置效能，本版亦非原生桌布安裝包。
+
+Gosanke Koi is a procedural character animation built with Canvas and JavaScript. Kohaku, Taisho Sanke and Showa Sanshoku koi move through XYZ space, with segmented bodies, variety-inspired markings, ripples, wakes and bubbles forming a full-screen waterscape. Inspired by ascii-sharks and Yunlong, the work combines Chen-Yu Chu’s art direction with AI-assisted implementation. Public version 0.2.0 supplies a deployable static-web package, full source and verification scripts under MIT without external runtime dependencies. Its 60fps setting is a scheduling target and cap, with pausing for hidden tabs and reduced-motion preferences. Markings are artistic interpretations; frame counts from one environment do not guarantee cross-device performance, and this is not a native wallpaper installer.
+
 三隻字元錦鯉在深墨藍水域悠游：紅白、大正三色、昭和三色。以 Canvas 字元渲染、分節身體與 XYZ 空間游動，呈現水波、細尾流與偶爾上浮的小氣泡。純全畫面動畫，沒有畫面文字或控制列。
 
 [公開試看](https://poplolioi11.github.io/gosanke-koi/) · [下載 v0.2.0](https://github.com/poplolioi11/gosanke-koi/releases/tag/v0.2.0) · [雲龍](https://github.com/poplolioi11/yunlong)
